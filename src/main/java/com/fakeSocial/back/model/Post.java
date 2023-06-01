@@ -21,24 +21,18 @@ public class Post {
     @ManyToMany(mappedBy = "postLike")
     private Set<Profil> profilLike= new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "Post_comment",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    private Set<Comment> comments= new HashSet<>();
+    @OneToMany(mappedBy = "commentPost")
+    private Set<Comment> postComments= new HashSet<>();
 
     private LocalDateTime postTime;
 
     protected Post() {}
 
-    public Post(String content, Profil author, Set<Profil> profilLike, Set<Comment> comments, LocalDateTime postTime) {
+    public Post(String content, Profil author,LocalDateTime postTime) {
         this.content = content;
         this.author = author;
-        this.profilLike = profilLike;
-        this.comments = comments;
         this.postTime = postTime;
+        author.addPost(this);
     }
 
     public Long getId() {
@@ -81,12 +75,19 @@ public class Post {
         this.postTime = postTime;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Set<Comment> getPostComments() {
+        return postComments;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setPostComments(Set<Comment> postComments) {
+        this.postComments = postComments;
     }
 
+    public void addProfilLike(Profil profil){
+        this.profilLike.add(profil);
+        profil.addPostLike(this);
+    }
+    public void addComment(Comment comment){
+        this.postComments.add(comment);
+    }
 }

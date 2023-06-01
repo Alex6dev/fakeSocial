@@ -22,6 +22,7 @@ public class AuthInfo {
         this.identifier = identifier;
         this.mdp = mdp;
         this.profil = profil;
+        profil.setAuthInfo(this);
     }
 
     public Long getId() {

@@ -29,7 +29,7 @@ public class Profil {
     @JoinColumn(name = "auth_info_id",unique = true)
     private AuthInfo authInfo;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Set<Post> posts= new HashSet<>();
 
     @ManyToMany
@@ -40,13 +40,8 @@ public class Profil {
     )
     private Set<Post> postLike= new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "Profil_comment",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "profil_id_comment")
-    )
-    private Set<Comment> comments=new HashSet<>();
+    @OneToMany(mappedBy = "authorComment",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+    private Set<Comment> comments= new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -54,22 +49,17 @@ public class Profil {
             joinColumns = @JoinColumn(name = "comment_like_id"),
             inverseJoinColumns = @JoinColumn(name = "profil_id_like")
     )
-    private Set<Post> commentLike= new HashSet<>();
+    private Set<Comment> commentLike= new HashSet<>();
 
     protected Profil() {}
 
-    public Profil(String name, String firstName, String country, String city, Integer phone, String email, AuthInfo authInfo, Set<Post> posts, Set<Post> postLike, Set<Comment> comments, Set<Post> commentLike) {
+    public Profil(String name, String firstName, String country, String city, Integer phone, String email) {
         this.name = name;
         this.firstName = firstName;
         this.country = country;
         this.city = city;
         this.phone = phone;
         this.email = email;
-        this.authInfo = authInfo;
-        this.posts = posts;
-        this.postLike = postLike;
-        this.comments = comments;
-        this.commentLike = commentLike;
     }
 
     public Long getId() {
@@ -158,5 +148,20 @@ public class Profil {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+
+
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+    public void addPostLike(Post post){
+        this.postLike.add(post);
+    }
+    public void addComment(Comment comment){
+        this.comments.add(comment);
+    }
+    public void addCommentLike (Comment comment){
+        this.commentLike.add(comment);
     }
 }
