@@ -41,7 +41,7 @@ public class Profil {
     private Set<Post> postLike= new HashSet<>();
 
     @OneToMany(mappedBy = "authorComment",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private Set<Comment> comments= new HashSet<>();
+    private Set<CommentModel> commentModels = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -49,7 +49,7 @@ public class Profil {
             joinColumns = @JoinColumn(name = "comment_like_id"),
             inverseJoinColumns = @JoinColumn(name = "profil_id_like")
     )
-    private Set<Comment> commentLike= new HashSet<>();
+    private Set<CommentModel> commentModelLike = new HashSet<>();
 
     protected Profil() {}
 
@@ -142,12 +142,12 @@ public class Profil {
         this.postLike = postLike;
     }
 
-    public Set<Comment> getComments() {
-        return comments;
+    public Set<CommentModel> getComments() {
+        return commentModels;
     }
 
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    public void setComments(Set<CommentModel> commentModels) {
+        this.commentModels = commentModels;
     }
 
 
@@ -158,10 +158,10 @@ public class Profil {
     public void addPostLike(Post post){
         this.postLike.add(post);
     }
-    public void addComment(Comment comment){
-        this.comments.add(comment);
+    public void addComment(CommentModel commentModel){
+        this.commentModels.add(commentModel);
     }
-    public void addCommentLike (Comment comment){
-        this.commentLike.add(comment);
+    public void addCommentLike (CommentModel commentModel){
+        this.commentModelLike.add(commentModel);
     }
 }

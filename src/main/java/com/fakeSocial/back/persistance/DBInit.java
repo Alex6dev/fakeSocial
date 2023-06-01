@@ -1,7 +1,7 @@
 package com.fakeSocial.back.persistance;
 
 import com.fakeSocial.back.model.AuthInfo;
-import com.fakeSocial.back.model.Comment;
+import com.fakeSocial.back.model.CommentModel;
 import com.fakeSocial.back.model.Post;
 import com.fakeSocial.back.model.Profil;
 import jakarta.annotation.PostConstruct;
@@ -32,10 +32,10 @@ public class DBInit {
         post1.addProfilLike(profil2);
 
 
-        Comment comment1 = new Comment("first comment",profil2,LocalDateTime.now(),post1);
+        CommentModel commentModel1 = new CommentModel("first comment",profil1,LocalDateTime.now(),post1);
 
-        comment1.addProfilLike(profil1);
-        comment1.addProfilLike(profil2);
+        commentModel1.addProfilLike(profil1);
+        commentModel1.addProfilLike(profil2);
 
         authInfoRepository.save(authInfo1);
         authInfoRepository.save(authInfo2);

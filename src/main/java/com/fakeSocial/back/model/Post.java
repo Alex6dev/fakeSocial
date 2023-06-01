@@ -22,7 +22,7 @@ public class Post {
     private Set<Profil> profilLike= new HashSet<>();
 
     @OneToMany(mappedBy = "commentPost")
-    private Set<Comment> postComments= new HashSet<>();
+    private Set<CommentModel> postCommentModels = new HashSet<>();
 
     private LocalDateTime postTime;
 
@@ -75,19 +75,19 @@ public class Post {
         this.postTime = postTime;
     }
 
-    public Set<Comment> getPostComments() {
-        return postComments;
+    public Set<CommentModel> getPostComments() {
+        return postCommentModels;
     }
 
-    public void setPostComments(Set<Comment> postComments) {
-        this.postComments = postComments;
+    public void setPostComments(Set<CommentModel> postCommentModels) {
+        this.postCommentModels = postCommentModels;
     }
 
     public void addProfilLike(Profil profil){
         this.profilLike.add(profil);
         profil.addPostLike(this);
     }
-    public void addComment(Comment comment){
-        this.postComments.add(comment);
+    public void addComment(CommentModel commentModel){
+        this.postCommentModels.add(commentModel);
     }
 }

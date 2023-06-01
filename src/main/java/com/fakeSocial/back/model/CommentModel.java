@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Comment {
+public class CommentModel {
 
     @Id
     @GeneratedValue
@@ -19,7 +19,7 @@ public class Comment {
     @JoinColumn(name = "author_id_comment")
     private Profil authorComment;
 
-    @ManyToMany(mappedBy = "commentLike")
+    @ManyToMany(mappedBy = "commentModelLike")
     private Set<Profil> profilLike= new HashSet<>();
 
     @ManyToOne
@@ -29,9 +29,9 @@ public class Comment {
 
     private LocalDateTime postTime;
 
-    protected Comment(){}
+    protected CommentModel(){}
 
-    public Comment(String content, Profil authorComment, LocalDateTime postTime,Post post) {
+    public CommentModel(String content, Profil authorComment, LocalDateTime postTime, Post post) {
         this.content = content;
         this.authorComment = authorComment;
         this.postTime = postTime;
