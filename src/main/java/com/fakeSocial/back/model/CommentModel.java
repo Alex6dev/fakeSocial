@@ -17,10 +17,10 @@ public class CommentModel {
 
     @ManyToOne
     @JoinColumn(name = "author_id_comment")
-    private Profil authorComment;
+    private Profile authorComment;
 
     @ManyToMany(mappedBy = "commentModelLike")
-    private Set<Profil> profilLike= new HashSet<>();
+    private Set<Profile> profileLike = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -31,7 +31,7 @@ public class CommentModel {
 
     protected CommentModel(){}
 
-    public CommentModel(String content, Profil authorComment, LocalDateTime postTime, Post post) {
+    public CommentModel(String content, Profile authorComment, LocalDateTime postTime, Post post) {
         this.content = content;
         this.authorComment = authorComment;
         this.postTime = postTime;
@@ -56,21 +56,21 @@ public class CommentModel {
         this.content = content;
     }
 
-    public Profil getAuthorComment() {
+    public Profile getAuthorComment() {
         return authorComment;
     }
 
-    public void setAuthorComment(Profil authorComment) {
+    public void setAuthorComment(Profile authorComment) {
         this.authorComment = authorComment;
     }
 
 
-    public Set<Profil> getProfilLike() {
-        return profilLike;
+    public Set<Profile> getProfilLike() {
+        return profileLike;
     }
 
-    public void setProfilLike(Set<Profil> profilLike) {
-        this.profilLike = profilLike;
+    public void setProfilLike(Set<Profile> profileLike) {
+        this.profileLike = profileLike;
     }
 
     public LocalDateTime getPostTime() {
@@ -89,8 +89,8 @@ public class CommentModel {
         this.commentPost = commentPost;
     }
 
-    public void addProfilLike(Profil profil){
-        this.profilLike.add(profil);
-        profil.addCommentLike(this);
+    public void addProfilLike(Profile profile){
+        this.profileLike.add(profile);
+        profile.addCommentLike(this);
     }
 }

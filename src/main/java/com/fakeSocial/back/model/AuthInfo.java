@@ -11,18 +11,27 @@ public class AuthInfo {
     private String identifier;
 
     private String mdp;
-    
+
+    private Boolean verify=false;
+
     @OneToOne(mappedBy = "authInfo", cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-    private Profil profil;
+    private Profile profile;
 
     protected AuthInfo( ) {
     }
 
-    public AuthInfo(String identifier, String mdp, Profil profil) {
+    public AuthInfo(String identifier, String mdp, Profile profile) {
         this.identifier = identifier;
         this.mdp = mdp;
-        this.profil = profil;
-        profil.setAuthInfo(this);
+        this.profile = profile;
+        profile.setAuthInfo(this);
+    }
+
+    public AuthInfo(String identifier, Profile profile) {
+        this.identifier = identifier;
+        this.profile = profile;
+        profile.setAuthInfo(this);
+
     }
 
     public Long getId() {
@@ -49,11 +58,19 @@ public class AuthInfo {
         this.mdp = mdp;
     }
 
-    public Profil getProfil() {
-        return profil;
+    public Profile getProfil() {
+        return profile;
     }
 
-    public void setProfil(Profil profil) {
-        this.profil = profil;
+    public void setProfil(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Boolean getVerify() {
+        return verify;
+    }
+
+    public void setVerify(Boolean verify) {
+        this.verify = verify;
     }
 }

@@ -3,11 +3,13 @@ package com.fakeSocial.back.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Profil {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
+public class Profile {
     @Id
     @GeneratedValue
     private Long id;
@@ -23,6 +25,8 @@ public class Profil {
     private Integer phone;
 
     private String email;
+
+    private LocalDate dateOfBirth;
 
     @JsonIgnore
     @OneToOne
@@ -51,15 +55,23 @@ public class Profil {
     )
     private Set<CommentModel> commentModelLike = new HashSet<>();
 
-    protected Profil() {}
+    protected Profile() {}
 
-    public Profil(String name, String firstName, String country, String city, Integer phone, String email) {
+    public Profile(String name, String firstName, String country, String city, Integer phone, String email, LocalDate dateOfBirth) {
         this.name = name;
         this.firstName = firstName;
         this.country = country;
         this.city = city;
         this.phone = phone;
         this.email = email;
+        this.dateOfBirth=dateOfBirth;
+    }
+
+    public Profile(String name, String firstName, String email, LocalDate dateOfBirth) {
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Long getId() {
@@ -150,7 +162,29 @@ public class Profil {
         this.commentModels = commentModels;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
 
+    public void setdateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Set<CommentModel> getCommentModels() {
+        return commentModels;
+    }
+
+    public void setCommentModels(Set<CommentModel> commentModels) {
+        this.commentModels = commentModels;
+    }
+
+    public Set<CommentModel> getCommentModelLike() {
+        return commentModelLike;
+    }
+
+    public void setCommentModelLike(Set<CommentModel> commentModelLike) {
+        this.commentModelLike = commentModelLike;
+    }
 
     public void addPost(Post post){
         this.posts.add(post);
