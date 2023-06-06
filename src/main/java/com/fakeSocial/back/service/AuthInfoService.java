@@ -5,6 +5,7 @@ import com.fakeSocial.back.model.AuthInfo;
 import com.fakeSocial.back.model.Profile;
 import com.fakeSocial.back.persistance.AuthInfoRepository;
 import com.fakeSocial.back.persistance.ProfileRepository;
+import com.fakeSocial.back.sendMail.EmailServiceImpl;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,10 +22,14 @@ public class AuthInfoService {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    private EmailServiceImpl emailService;
+
     public boolean createAuthInfoAndProfil(NewAuthInfoProfileDto newAuthInfoProfileDto) throws   DataIntegrityViolationException {
         Profile profile = new Profile(newAuthInfoProfileDto.getName(), newAuthInfoProfileDto.getFirstName(), newAuthInfoProfileDto.getEmail(),LocalDate.parse(newAuthInfoProfileDto.getDateOfBirth()));
         AuthInfo authInfo= new AuthInfo(newAuthInfoProfileDto.getEmail(), profile);
         authInfoRepository.save(authInfo);
+        //emailService.sendSimpleMessage(newAuthInfoProfileDto.getEmail(), "code test","xxxxxxxxx");
         return true;
 
 
