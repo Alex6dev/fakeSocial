@@ -21,6 +21,13 @@ public class NewAuthInfoProfileDto {
 
     protected NewAuthInfoProfileDto() {}
 
+    public NewAuthInfoProfileDto(String name, String firstName, String email, String dateOfBirth) {
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getName() {
         return name;
     }

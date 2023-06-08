@@ -1,4 +1,4 @@
-package com.fakeSocial.back.sendMail;
+package com.fakeSocial.back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

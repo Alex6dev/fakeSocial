@@ -1,5 +1,6 @@
 package com.fakeSocial.back.service;
 
+import com.fakeSocial.back.BackApplication;
 import com.fakeSocial.back.dto.received.ConfirmCodeDto;
 import com.fakeSocial.back.exception.NoMatchConfirmCodeException;
 import com.fakeSocial.back.model.AuthInfo;
@@ -7,6 +8,7 @@ import com.fakeSocial.back.model.ConfirmCode;
 import com.fakeSocial.back.persistance.AuthInfoRepository;
 import com.fakeSocial.back.persistance.ConfirmCodeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class ConfirmCodeService {
 
     @Autowired
     private AuthInfoRepository authInfoRepository;
+
+    private static final Logger logger = BackApplication.logger;
+
     public String createConfirmCode(AuthInfo authInfo){
 
         String numberRandom= generateStringInt();
@@ -58,6 +63,8 @@ public class ConfirmCodeService {
             authInfoOpt.get().setVerify(true);
             authInfoRepository.save(authInfoOpt.get());
             confirmCodeRepository.delete(confirmCodeOpt.get());
+            logger.info("email confirmation is confirmed");
+
             return true; 
         }
         throw new NoMatchConfirmCodeException();

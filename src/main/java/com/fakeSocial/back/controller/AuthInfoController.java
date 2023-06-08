@@ -1,6 +1,7 @@
 package com.fakeSocial.back.controller;
 
 import com.fakeSocial.back.BackApplication;
+import com.fakeSocial.back.dto.received.AuthInfoDto;
 import com.fakeSocial.back.dto.received.ConfirmCodeDto;
 import com.fakeSocial.back.exception.NoMatchConfirmCodeException;
 import com.fakeSocial.back.service.ConfirmCodeService;
@@ -58,5 +59,20 @@ public class AuthInfoController {
             return ResponseEntity.status(HttpStatus.valueOf(500)).build();
         }
 
+    }
+
+    @PutMapping("newAuthInfo")
+    public ResponseEntity updateAuthInfoWithPassword(@Valid @RequestBody AuthInfoDto authInfoDto){
+        try{
+            return ResponseEntity.ok().body(authInfoService.updateAuthInfoWithPassword(authInfoDto));
+
+        }catch(EntityNotFoundException e){
+            logger.error("EntityNotFoundException: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+
+        }catch (Exception e){
+            logger.error("an error occurred while executing the function authInfoController.updateAuthInfo. Error: 500");
+            return ResponseEntity.status(HttpStatus.valueOf(500)).build();
+        }
     }
 }
