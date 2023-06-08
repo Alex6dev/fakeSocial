@@ -2,7 +2,9 @@ package com.fakeSocial.back.controller;
 
 import com.fakeSocial.back.BackApplication;
 import com.fakeSocial.back.dto.received.ConfirmCodeDto;
+import com.fakeSocial.back.exception.NoMatchConfirmCodeException;
 import com.fakeSocial.back.service.ConfirmCodeService;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 
 import com.fakeSocial.back.dto.received.NewAuthInfoProfileDto;
@@ -31,13 +33,30 @@ public class AuthInfoController {
         try {
             return ResponseEntity.ok().body(authInfoService.createAuthInfoAndProfile(newAuthInfoProfileDto));
         }catch (DataIntegrityViolationException e){
+            logger.error("an auth_info already exists with this email");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }catch (Exception e){
+            logger.error("an error occurred while executing the function authInfoController.newAuthInfoController. Error:500");
+            return ResponseEntity.status(HttpStatus.valueOf(500)).build();
         }
     }
 
     @PostMapping("confirmCode")
     public ResponseEntity confirmCodeEmail(@Valid @RequestBody ConfirmCodeDto confirmCodeDto){
-        return ResponseEntity.ok().body(confirmCodeService.checkConfirmCode(confirmCodeDto));
+        try{
+            return ResponseEntity.ok().body(confirmCodeService.checkConfirmCode(confirmCodeDto));
+
+        }catch (EntityNotFoundException e){
+            logger.error("EntityNotFoundException: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        }catch (NoMatchConfirmCodeException e){
+            logger.error("NoMatchConfirmCodeException: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        }catch (Exception e){
+            logger.error("an error occurred while executing the function authInfoController.confirmCodeEmail. Error: 500");
+            return ResponseEntity.status(HttpStatus.valueOf(500)).build();
+        }
 
     }
 }
