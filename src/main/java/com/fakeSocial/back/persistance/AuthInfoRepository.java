@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface AuthInfoRepository extends JpaRepository<AuthInfo,Long> {
     Optional<AuthInfo> findByIdentifierAndMdp(String identifier, String mdp);
+    Optional<AuthInfo> findByIdentifier(String identifier);
 
 }

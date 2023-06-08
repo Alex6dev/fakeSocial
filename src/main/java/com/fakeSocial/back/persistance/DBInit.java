@@ -16,6 +16,7 @@ public class DBInit {
     @Autowired
     private AuthInfoRepository authInfoRepository;
 
+
     @PostConstruct
     public void dbInit(){
 
