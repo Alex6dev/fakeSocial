@@ -1,37 +1,47 @@
 package com.fakeSocial.back.service;
 
-import com.fakeSocial.back.dto.issued.ProfilDto;
+import com.fakeSocial.back.BackApplication;
+import com.fakeSocial.back.dto.issued.ProfileDto;
 import com.fakeSocial.back.dto.received.AuthInfoDto;
+import com.fakeSocial.back.exception.ForbiddenException;
+import com.fakeSocial.back.model.AuthInfo;
+import com.fakeSocial.back.model.Profile;
 import com.fakeSocial.back.persistance.AuthInfoRepository;
+import com.fakeSocial.back.persistance.ProfileRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 public class AuthService {
     @Autowired
     private AuthInfoRepository authInfoRepository;
 
-    public ProfilDto getAuthentication(AuthInfoDto authInfoDto){
-        return new ProfilDto();
-    }
+    @Autowired
+    private ProfileRepository profileRepository;
 
-    public static String stringHashSecurity(String mdp) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedhash = digest.digest(mdp.getBytes(StandardCharsets.UTF_8));
+    private static final Logger logger = BackApplication.logger;
 
-        StringBuilder hexString = new StringBuilder(2 * encodedhash.length);
-        for (byte b : encodedhash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
+
+    public ProfileDto getAuthentication(AuthInfoDto authInfoDto) throws EntityNotFoundException, ForbiddenException {
+        Optional<AuthInfo> authInfoOpt= authInfoRepository.findByIdentifier(authInfoDto.getIdentifier());
+        if(authInfoOpt.isEmpty()){
+            throw new EntityNotFoundException("there is no auth_info with this identifier");
+        } else if (!authInfoOpt.get().getMdp().equals(authInfoDto.getMdp())) {
+            throw new ForbiddenException("the couple identification password is not the correct one");
         }
-        return hexString.toString();
+
+        Optional<Profile> profileOpt= profileRepository.findByAuthInfo(authInfoOpt.get());
+        if(profileOpt.isEmpty()){
+            throw new EntityNotFoundException("there is no auth_info with this identifier");
+        }
+
+        logger.info("user successfully logged in !");
+        return new ProfileDto(profileOpt.get());
+
     }
 
 }

@@ -10,7 +10,7 @@ public class AuthInfoDto {
     private String identifier;
 
     @NotBlank
-    @Length(min=6)
+    @Length(min=8)
     private String mdp;
 
     protected AuthInfoDto(){}

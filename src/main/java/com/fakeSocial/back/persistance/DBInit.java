@@ -21,12 +21,12 @@ public class DBInit {
     public void dbInit(){
 
         Profile profile1 =new Profile("alex", "six","France","Lille",0652524257,"alex@gmail.com",LocalDate.parse("1994-02-14"));
-        AuthInfo authInfo1= new AuthInfo("profil1","profil1", profile1);
+        AuthInfo authInfo1= new AuthInfo("alex@gmail.com","profile123456", profile1);
         Post post1= new Post("first message", profile1, LocalDateTime.now());
         Post post2= new Post("second message", profile1, LocalDateTime.now());
 
         Profile profile2 =new Profile("Mathieu", "delage","France","Lille",0652524257,"mathieu@gmail.com",LocalDate.parse("1985-02-02"));
-        AuthInfo authInfo2= new AuthInfo("profil2","profil2", profile2);
+        AuthInfo authInfo2= new AuthInfo("mathieu@gmail.com","profile234567", profile2);
         Post post3= new Post("third message", profile2, LocalDateTime.now());
         Post post4= new Post("fourth message", profile2, LocalDateTime.now());
 
