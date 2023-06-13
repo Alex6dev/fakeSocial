@@ -12,7 +12,7 @@ public class PostDto {
 
     private Long id;
     private String content;
-    private Long idAuthor;
+    private ProfileSmallDto author;
     private int profileLike;
 
     private int postComment;
@@ -23,7 +23,7 @@ public class PostDto {
     public PostDto(Post post){
         this.id= post.getId();
         this.content= post.getContent();
-        this.idAuthor=post.getAuthor().getId();
+        this.author=new ProfileSmallDto(post.getAuthor());
         this.profileLike=post.getProfilLike().size();
         this.postComment=post.getPostComments().size();
         this.postTime=post.getPostTime();
@@ -45,12 +45,12 @@ public class PostDto {
         this.content = content;
     }
 
-    public Long getIdAuthor() {
-        return idAuthor;
+    public ProfileSmallDto getAuthor() {
+        return author;
     }
 
-    public void setIdAuthor(Long idAuthor) {
-        this.idAuthor = idAuthor;
+    public void setAuthor(ProfileSmallDto author) {
+        this.author = author;
     }
 
     public int getProfileLike() {
