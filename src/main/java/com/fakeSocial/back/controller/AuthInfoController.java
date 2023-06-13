@@ -30,14 +30,14 @@ public class AuthInfoController {
 
     private static final Logger logger = BackApplication.logger;
     @PostMapping("newAuthInfo")
-    public ResponseEntity newAuthInfoController(@Valid @RequestBody NewAuthInfoProfileDto newAuthInfoProfileDto){
+    public ResponseEntity newAuthInfo(@Valid @RequestBody NewAuthInfoProfileDto newAuthInfoProfileDto){
         try {
             return ResponseEntity.ok().body(authInfoService.createAuthInfoAndProfile(newAuthInfoProfileDto));
         }catch (DataIntegrityViolationException e){
             logger.error("an auth_info already exists with this email");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }catch (Exception e){
-            logger.error("an error occurred while executing the function authInfoController.newAuthInfoController. Error:500");
+            logger.error("an error occurred while executing the function authInfoController.newAuthInfo. Error:500");
             return ResponseEntity.status(HttpStatus.valueOf(500)).build();
         }
     }

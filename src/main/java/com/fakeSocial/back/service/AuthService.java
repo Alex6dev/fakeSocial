@@ -36,7 +36,7 @@ public class AuthService {
 
         Optional<Profile> profileOpt= profileRepository.findByAuthInfo(authInfoOpt.get());
         if(profileOpt.isEmpty()){
-            throw new EntityNotFoundException("there is no auth_info with this identifier");
+            throw new EntityNotFoundException("there is no profile with this authInfo");
         }
 
         logger.info("user successfully logged in !");
