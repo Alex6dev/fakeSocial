@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -51,7 +52,7 @@ public class PostService {
 
     public List<PostDto>  getPost(GetPostDto getPostDto){
         //the getPostDto will allow in a next release to search according to the profile
-        Pageable pageable= PageRequest.of(getPostDto.getPageNext(), 2);
+        Pageable pageable= PageRequest.of(getPostDto.getPageNext(), 4, Sort.by(Sort.Direction.DESC, "postTime"));
         Page<Post> list= postPagingRepository.findAll(pageable);
         List<PostDto> listDto= new ArrayList<>(list.getSize());
 
