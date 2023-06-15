@@ -26,6 +26,8 @@ public class Post {
 
     private LocalDateTime postTime;
 
+    private byte[] image;
+
     protected Post() {}
 
     public Post(String content, Profile author, LocalDateTime postTime) {
@@ -33,6 +35,13 @@ public class Post {
         this.author = author;
         this.postTime = postTime;
         author.addPost(this);
+    }
+    public Post(String content, Profile author, LocalDateTime postTime,byte[] image) {
+        this.content = content;
+        this.author = author;
+        this.postTime = postTime;
+        author.addPost(this);
+        this.image=image;
     }
 
     public Long getId() {
@@ -59,14 +68,6 @@ public class Post {
         this.author = author;
     }
 
-    public Set<Profile> getProfilLike() {
-        return profileLike;
-    }
-
-    public void setProfilLike(Set<Profile> profileLike) {
-        this.profileLike = profileLike;
-    }
-
     public LocalDateTime getPostTime() {
         return postTime;
     }
@@ -75,12 +76,28 @@ public class Post {
         this.postTime = postTime;
     }
 
-    public Set<CommentModel> getPostComments() {
+    public Set<Profile> getProfileLike() {
+        return profileLike;
+    }
+
+    public void setProfileLike(Set<Profile> profileLike) {
+        this.profileLike = profileLike;
+    }
+
+    public Set<CommentModel> getPostCommentModels() {
         return postCommentModels;
     }
 
-    public void setPostComments(Set<CommentModel> postCommentModels) {
+    public void setPostCommentModels(Set<CommentModel> postCommentModels) {
         this.postCommentModels = postCommentModels;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public void addProfilLike(Profile profile){

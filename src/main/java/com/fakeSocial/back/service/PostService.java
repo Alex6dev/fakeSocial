@@ -3,6 +3,7 @@ package com.fakeSocial.back.service;
 import com.fakeSocial.back.BackApplication;
 import com.fakeSocial.back.dto.issued.PostDto;
 import com.fakeSocial.back.dto.received.GetPostDto;
+import com.fakeSocial.back.dto.received.NewPostAndImageDto;
 import com.fakeSocial.back.dto.received.NewPostDto;
 import com.fakeSocial.back.model.Post;
 import com.fakeSocial.back.model.Profile;
@@ -62,5 +63,15 @@ public class PostService {
         }
         logger.info("send page "+getPostDto.getPageNext()+" (indexFirst: 0 )");
         return listDto;
+    }
+    public void newPostAndImageDto(NewPostAndImageDto newPostAndImageDtoDto)throws EntityNotFoundException{
+        Optional<Profile> profileOpt= profileRepository.findById(Long.parseLong(newPostAndImageDtoDto.getAuthor()));
+        if(profileOpt.isEmpty()){
+            throw new EntityNotFoundException("there is no profile with this id");
+        }
+        Post post = new Post(newPostAndImageDtoDto.getContent().trim(),profileOpt.get(), LocalDateTime.now(),newPostAndImageDtoDto.getImage().getBytes());
+        postRepository.save(post);
+
+        logger.info("backup of the message in BDD is carried out");
     }
 }

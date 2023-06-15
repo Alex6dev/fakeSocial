@@ -2,6 +2,7 @@ package com.fakeSocial.back.controller;
 
 import com.fakeSocial.back.BackApplication;
 import com.fakeSocial.back.dto.received.GetPostDto;
+import com.fakeSocial.back.dto.received.NewPostAndImageDto;
 import com.fakeSocial.back.dto.received.NewPostDto;
 import com.fakeSocial.back.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
@@ -40,6 +41,20 @@ public class PostController {
             return ResponseEntity.ok().body(postService.getPost(getPostDto));
         }catch (Exception e){
             logger.error("an error occurred while executing the function postController.getPost. Error:500");
+            return ResponseEntity.status(HttpStatus.valueOf(500)).build();
+        }
+    }
+
+    @PostMapping("newPost/image")
+    public ResponseEntity newPostAndImage(@Valid @RequestBody NewPostAndImageDto newPostAndImageDto){
+        try{
+            postService.newPostAndImageDto(newPostAndImageDto);
+            return ResponseEntity.ok().build();
+        }catch (EntityNotFoundException e){
+            logger.error("EntityNotFoundException: "+ e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        } catch(Exception e){
+            logger.error("an error occurred while executing the function postController.newPostAndImage. Error:500");
             return ResponseEntity.status(HttpStatus.valueOf(500)).build();
         }
     }

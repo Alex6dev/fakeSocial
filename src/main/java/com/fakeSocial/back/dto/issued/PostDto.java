@@ -17,6 +17,7 @@ public class PostDto {
 
     private int postComment;
     private LocalDateTime postTime;
+    private String image;
 
     protected PostDto(){}
 
@@ -24,9 +25,12 @@ public class PostDto {
         this.id= post.getId();
         this.content= post.getContent();
         this.author=new ProfileSmallDto(post.getAuthor());
-        this.profileLike=post.getProfilLike().size();
-        this.postComment=post.getPostComments().size();
+        this.profileLike=post.getProfileLike().size();
+        this.postComment=post.getPostCommentModels().size();
         this.postTime=post.getPostTime();
+        if(post.getImage()!=null){
+            this.image= new String(post.getImage());
+        }
     }
 
     public Long getId() {
@@ -75,5 +79,13 @@ public class PostDto {
 
     public void setPostTime(LocalDateTime postTime) {
         this.postTime = postTime;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
